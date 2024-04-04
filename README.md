@@ -6,17 +6,34 @@ Generate resource class from assets folder.
 
 ## Getting started
 
-
+Before using this generator, your assets folder must have this structure:<br>
+```
+<your-project>
+├── <assets-folder>/
+   ├── images/ (for images)
+   ├── vectors/ (for vector images or svg)
+   ├── translations/ (for localizations)
+├── lib/
+├── pubspec.yaml
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+Activate executable:<br>
+```
+dart pub global activate tek_generator
 ```
 
-## Additional information
+`cd` to your ptoject folder:
+```
+cd <your-project>
+```
 
-Contact Nguyen Anh Quan (anhquan7826@gmail.com or quan.na@teko.vn) for more information.
+Run the generator:
+```
+dart pub global run tek_generator:generate -i <assets-folder> -o <output-folder>
+```
+
+## Contact
+
+Contact Nguyen Anh Quan (anhquan7826@gmail.com or quan.na@teko.vn) for more information or requests.
