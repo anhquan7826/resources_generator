@@ -10,6 +10,7 @@ void generateStringResources(
     return;
   }
   final buffer = StringBuffer("""
+// ignore_for_file: non_constant_identifier_names
 part of 'resources.dart';
 
 const _stringResources = (

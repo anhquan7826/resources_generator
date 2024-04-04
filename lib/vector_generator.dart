@@ -9,6 +9,7 @@ void generateVectorResources(
     return;
   }
   final buffer = StringBuffer("""
+// ignore_for_file: non_constant_identifier_names
 part of 'resources.dart';
 
 const _vectorResources = (
@@ -26,7 +27,8 @@ const _vectorResources = (
       .toList();
   for (final file in files) {
     buffer.writeln(
-        "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/vectors/${basename(file.path)}',");
+      "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/vectors/${basename(file.path)}',",
+    );
   }
   buffer.writeln(');');
   Directory(output).createSync(recursive: true);

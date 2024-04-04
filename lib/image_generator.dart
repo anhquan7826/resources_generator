@@ -9,6 +9,7 @@ void generateImageResources(
     return;
   }
   final buffer = StringBuffer("""
+// ignore_for_file: non_constant_identifier_names
 part of 'resources.dart';
 
 const _imageResources = (
@@ -31,7 +32,8 @@ const _imageResources = (
       .toList();
   for (final file in files) {
     buffer.writeln(
-        "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/images/${basename(file.path)}',");
+      "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/images/${basename(file.path)}',",
+    );
   }
   buffer.writeln(');');
   Directory(output).createSync(recursive: true);
