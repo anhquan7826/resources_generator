@@ -13,10 +13,12 @@ void main(List<String> args) {
   generateVectorResources(
     input: '${arguments.assetsLocation}/vectors',
     output: arguments.outputLocation,
+    package: arguments.package
   );
   generateImageResources(
     input: '${arguments.assetsLocation}/images',
     output: arguments.outputLocation,
+    package: arguments.package
   );
   generateStringResources(
     input: '${arguments.assetsLocation}/translations',
@@ -31,6 +33,7 @@ class Arguments {
   Arguments({
     String assetsLocation = 'assets',
     String outputLocation = 'resources',
+    this.package,
   }) {
     this.assetsLocation = assetsLocation.endsWith('/')
         ? assetsLocation.substring(0, assetsLocation.length - 1)
@@ -41,29 +44,42 @@ class Arguments {
   }
 
   factory Arguments.read(List<String> args) {
-    if (args.length % 2 != 0) {
-      throw ArgumentError('Invalid argument!');
-    }
-    var i = 0;
-    String assets = 'assets';
-    String output = 'resources';
-    while (i < args.length) {
-      switch (args[i]) {
-        case '-i':
-          assets = args[++i];
-          break;
-        case '-o':
-          output = args[++i];
-          break;
-      }
-      i++;
-    }
+    final arguments = _processArguments(args);
     return Arguments(
-      assetsLocation: assets,
-      outputLocation: output,
+      assetsLocation: arguments['i']?.first ?? 'assets',
+      outputLocation: arguments['o']?.first ?? 'resources',
+      package: arguments['p']?.first,
     );
+  }
+
+  static Map<String, List<String>> _processArguments(List<String> args) {
+    final Map<String, List<String>> result = {};
+    int i = 0;
+    while (i < args.length) {
+      final arg = args[i];
+      if (arg.startsWith('-')) {
+        final flags = <String>[];
+        int j = i + 1;
+        while (j < args.length && !args[j].startsWith('-')) {
+          final flag = args[j];
+          flags.add(flag);
+          j++;
+        }
+        result[arg.substring(1)] = flags;
+        i = j;
+      } else {
+        throw Exception("Invalid argument: '$arg' at index $i!");
+      }
+    }
+    result.forEach((key, value) {
+      if (value.isEmpty) {
+        throw Exception("Invalid argument: Empty flag for argument '-$key'!");
+      }
+    });
+    return result;
   }
 
   late final String assetsLocation;
   late final String outputLocation;
+  late final String? package;
 }

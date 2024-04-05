@@ -31,8 +31,12 @@ cd <your-project>
 
 Run the generator:
 ```
-dart pub global run tek_generator:generate -i <assets-folder> -o <output-folder>
+dart pub global run tek_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package>
 ```
+where:
+- `-i`, optional, is the assets folder, default to `assets`.
+- `-o`, optional, is the output folder, default to `resources`.
+- `-p`, optional, is the package name if assets are in a package/module instead of an application.
 
 ## Contact
 

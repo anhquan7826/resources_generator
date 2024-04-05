@@ -27,7 +27,7 @@ const _vectorResources = (
       .toList();
   for (final file in files) {
     buffer.writeln(
-      "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/vectors/${basename(file.path)}',",
+      "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : 'packages/$package/'}assets/vectors/${basename(file.path)}',",
     );
   }
   buffer.writeln(');');
