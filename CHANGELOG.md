@@ -22,3 +22,7 @@
 ## 1.2.0
 
 - Add `colors/` folder.
+
+## 1.2.1
+
+- Fix invalid name.

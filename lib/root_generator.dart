@@ -45,7 +45,7 @@ class R {
         buffer.writeln('  static const scripts = _scriptResources;');
         break;
       case 'color_resources':
-        buffer.writeln('  static const colors = _colorsResources;');
+        buffer.writeln('  static const colors = _colorResources;');
         break;
     }
   }
