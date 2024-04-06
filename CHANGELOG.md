@@ -26,3 +26,7 @@
 ## 1.2.1
 
 - Fix invalid name.
+
+## 1.2.2
+
+- Add support for multi level string resources.

@@ -23,15 +23,34 @@ const _stringResources = (
     ) as File;
     final line = file.readAsStringSync();
     final map = (json.decode(line) as Map).map((key, value) {
-      return MapEntry(key.toString(), value.toString());
+      return MapEntry(key.toString(), value);
     });
-    for (final key in map.keys) {
-      buffer.writeln("  $key: '$key',");
-    }
+    _writeStrings(buffer, 2, map);
   } catch (_) {}
   buffer.writeln(');');
   Directory(output).createSync(recursive: true);
   File('$output/string_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+}
+
+void _writeStrings(StringBuffer buffer, int indent, Map<String, dynamic> map) {
+  for (final entry in map.entries) {
+    if (entry.value is String) {
+      buffer
+          .writeln("${_generateIndent(indent)}${entry.key}: '${entry.value}',");
+    } else if (entry.value is Map) {
+      buffer.writeln("${_generateIndent(indent)}${entry.key}: (");
+      _writeStrings(buffer, indent + 2, entry.value);
+      buffer.writeln("${_generateIndent(indent)}),");
+    }
+  }
+}
+
+String _generateIndent(int length) {
+  String result = '';
+  for (int i = 0; i < length; i++) {
+    result += ' ';
+  }
+  return result;
 }
