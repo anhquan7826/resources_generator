@@ -9,3 +9,8 @@
 ## 1.0.2
 
 - Fix package argument.
+
+## 1.1.0
+
+- Add `fonts/` folder.
+- Add `scripts/` folder.

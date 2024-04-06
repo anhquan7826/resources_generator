@@ -13,6 +13,8 @@ Before using this generator, your assets folder must have this structure:<br>
    ├── images/ (for images)
    ├── vectors/ (for vector images or svg)
    ├── translations/ (for localizations)
+   ├── fonts/ (for fonts)
+   ├── scripts/ (for shell scripts)
 ├── lib/
 ├── pubspec.yaml
 ```
