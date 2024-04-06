@@ -38,6 +38,15 @@ class R {
       case 'vector_resources':
         buffer.writeln('  static const vectors = _vectorResources;');
         break;
+      case 'font_resources':
+        buffer.writeln('  static const fonts = _fontResources;');
+        break;
+      case 'script_resources':
+        buffer.writeln('  static const scripts = _scriptResources;');
+        break;
+      case 'color_resources':
+        buffer.writeln('  static const colors = _colorsResources;');
+        break;
     }
   }
   buffer.writeln('}');
