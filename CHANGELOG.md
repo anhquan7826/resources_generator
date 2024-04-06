@@ -30,3 +30,7 @@
 ## 1.2.2
 
 - Add support for multi level string resources.
+
+## 1.2.3
+
+- Fix multi-level string resources.
