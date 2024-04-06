@@ -14,3 +14,7 @@
 
 - Add `fonts/` folder.
 - Add `scripts/` folder.
+
+## 1.1.1
+
+- Fix missing generator.

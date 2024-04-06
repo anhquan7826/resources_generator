@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:tek_generator/font_generator.dart';
 import 'package:tek_generator/image_generator.dart';
 import 'package:tek_generator/root_generator.dart';
+import 'package:tek_generator/script_generator.dart';
 import 'package:tek_generator/string_generator.dart';
 import 'package:tek_generator/vector_generator.dart';
 
@@ -13,12 +15,22 @@ void main(List<String> args) {
   generateVectorResources(
     input: '${arguments.assetsLocation}/vectors',
     output: arguments.outputLocation,
-    package: arguments.package
+    package: arguments.package,
   );
   generateImageResources(
     input: '${arguments.assetsLocation}/images',
     output: arguments.outputLocation,
-    package: arguments.package
+    package: arguments.package,
+  );
+  generateFontResources(
+    input: '${arguments.assetsLocation}/fonts',
+    output: arguments.outputLocation,
+    package: arguments.package,
+  );
+  generateScriptResources(
+    input: '${arguments.assetsLocation}/scripts',
+    output: arguments.outputLocation,
+    package: arguments.package,
   );
   generateStringResources(
     input: '${arguments.assetsLocation}/translations',
