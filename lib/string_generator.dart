@@ -25,7 +25,10 @@ const _stringResources = (
     final map = (json.decode(line) as Map).map((key, value) {
       return MapEntry(key.toString(), value);
     });
-    _writeStrings(buffer, 2, map);
+    _writeStrings(
+      buffer: buffer,
+      map: map,
+    );
   } catch (_) {}
   buffer.writeln(');');
   Directory(output).createSync(recursive: true);
@@ -34,14 +37,24 @@ const _stringResources = (
     ..writeAsStringSync(buffer.toString());
 }
 
-void _writeStrings(StringBuffer buffer, int indent, Map<String, dynamic> map) {
+void _writeStrings({
+  required StringBuffer buffer,
+  int indent = 2,
+  String prefix = '',
+  required Map<String, dynamic> map,
+}) {
   for (final entry in map.entries) {
     if (entry.value is String) {
-      buffer
-          .writeln("${_generateIndent(indent)}${entry.key}: '${entry.key}',");
+      buffer.writeln(
+          "${_generateIndent(indent)}${entry.key}: '$prefix${entry.key}',");
     } else if (entry.value is Map) {
       buffer.writeln("${_generateIndent(indent)}${entry.key}: (");
-      _writeStrings(buffer, indent + 2, entry.value);
+      _writeStrings(
+        buffer: buffer,
+        indent: indent + 2,
+        prefix: prefix.isEmpty ? '${entry.key}.' : '$prefix.${entry.key}.',
+        map: entry.value,
+      );
       buffer.writeln("${_generateIndent(indent)}),");
     }
   }

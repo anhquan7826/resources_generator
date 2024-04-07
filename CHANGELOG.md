@@ -34,3 +34,7 @@
 ## 1.2.3
 
 - Fix multi-level string resources.
+
+## 1.2.4
+
+- Fix multi-level string resources missing parent's key.
