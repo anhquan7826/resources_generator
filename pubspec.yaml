@@ -1,6 +1,6 @@
 name: tek_generator
 description: An resource class generator for Flutter, like Android resource class R.
-version: 1.2.4
+version: 1.2.6
 repository: https://github.com/anhquan7826/tek_generator
 
 platforms:

@@ -65,7 +65,7 @@ class Arguments {
     return Arguments(
       assetsLocation: arguments['i']?.first ?? 'assets',
       outputLocation: arguments['o']?.first ?? 'resources',
-      package: arguments['p']?.first,
+      package: arguments['p']?.first.replaceAll('/', ''),
     );
   }
 

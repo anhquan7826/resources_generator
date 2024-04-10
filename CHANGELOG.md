@@ -38,3 +38,7 @@
 ## 1.2.4
 
 - Fix multi-level string resources missing parent's key.
+
+## 1.2.5
+
+- Automatically remove slash when using `-p` parameter.
