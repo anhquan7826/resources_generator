@@ -47,6 +47,8 @@ class R {
       case 'color_resources':
         buffer.writeln('  static const colors = _colorResources;');
         break;
+      case 'config_resources':
+        buffer.writeln('  static const configs = _configResources;');
     }
   }
   buffer.writeln('}');

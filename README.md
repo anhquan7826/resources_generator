@@ -15,6 +15,7 @@ Before using this generator, your assets folder must have this structure:<br>
    ├── translations/ (for localizations)
    ├── fonts/ (for fonts)
    ├── scripts/ (for shell scripts)
+   ├── configs/ (for JSON configurations)
 ├── lib/
 ├── pubspec.yaml
 ```

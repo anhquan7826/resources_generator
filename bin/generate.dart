@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:tek_generator/color_generator.dart';
+import 'package:tek_generator/config_generator.dart';
 import 'package:tek_generator/font_generator.dart';
 import 'package:tek_generator/image_generator.dart';
 import 'package:tek_generator/root_generator.dart';
@@ -39,6 +40,10 @@ void main(List<String> args) {
   );
   generateStringResources(
     input: '${arguments.assetsLocation}/translations',
+    output: arguments.outputLocation,
+  );
+  generateConfigResources(
+    input: '${arguments.assetsLocation}/configs',
     output: arguments.outputLocation,
   );
   generateRootResources(
