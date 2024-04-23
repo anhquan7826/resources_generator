@@ -3,10 +3,15 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-void generateStringResources(
-    {required String input, required String output, String? package}) {
+void generateStringResources({
+  required String input,
+  required String output,
+  String? package,
+}) {
+  print('Generating string resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
+    print('translations/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -35,6 +40,7 @@ const _stringResources = (
   File('$output/string_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+  print('Generated string resources!');
 }
 
 void _writeStrings({
@@ -43,7 +49,8 @@ void _writeStrings({
   String prefix = '',
   required Map<String, dynamic> map,
 }) {
-  for (final entry in map.entries.toList()..sort((a, b) => a.key.compareTo(b.key))) {
+  for (final entry in map.entries.toList()
+    ..sort((a, b) => a.key.compareTo(b.key))) {
     if (entry.value is String) {
       buffer.writeln(
           "${_generateIndent(indent)}${entry.key}: '$prefix${entry.key}',");

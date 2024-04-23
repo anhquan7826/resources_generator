@@ -3,10 +3,15 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-void generateColorResources(
-    {required String input, required String output, String? package}) {
+void generateColorResources({
+  required String input,
+  required String output,
+  String? package,
+}) {
+  print('Generating color resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
+    print('colors/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -25,7 +30,8 @@ const _colorResources = (
     final map = (json.decode(line) as Map).map((key, value) {
       return MapEntry(key.toString(), value.toString());
     });
-    for (final entry in map.entries.toList()..sort((a, b) => a.key.compareTo(b.key))) {
+    for (final entry in map.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key))) {
       buffer.writeln('  ${entry.key}: ${entry.value},');
     }
   } catch (_) {}
@@ -34,4 +40,5 @@ const _colorResources = (
   File('$output/color_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+  print('Generated color resources!');
 }

@@ -2,10 +2,15 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-void generateImageResources(
-    {required String input, required String output, String? package}) {
+void generateImageResources({
+  required String input,
+  required String output,
+  String? package,
+}) {
+  print('Generating image resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
+    print('images/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -29,7 +34,8 @@ const _imageResources = (
         }
       })
       .whereType<File>()
-      .toList()..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+      .toList()
+    ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/images/${basename(file.path)}',",
@@ -40,4 +46,5 @@ const _imageResources = (
   File('$output/image_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+  print('Generated image resources!');
 }

@@ -2,10 +2,15 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-void generateVectorResources(
-    {required String input, required String output, String? package}) {
+void generateVectorResources({
+  required String input,
+  required String output,
+  String? package,
+}) {
+  print('Generating vector resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
+    print('vectors/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -24,7 +29,8 @@ const _vectorResources = (
         }
       })
       .whereType<File>()
-      .toList()..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+      .toList()
+    ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : 'packages/$package/'}assets/vectors/${basename(file.path)}',",
@@ -35,4 +41,5 @@ const _vectorResources = (
   File('$output/vector_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+  print('Generated vector resources!');
 }

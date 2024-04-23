@@ -2,10 +2,15 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-void generateFontResources(
-    {required String input, required String output, String? package}) {
+void generateFontResources({
+  required String input,
+  required String output,
+  String? package,
+}) {
+  print('Generating font resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
+    print('fonts/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -27,7 +32,8 @@ const _fontResources = (
         }
       })
       .whereType<File>()
-      .toList()..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+      .toList()
+    ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/fonts/${basename(file.path)}',",
@@ -38,4 +44,5 @@ const _fontResources = (
   File('$output/font_resources.dart')
     ..createSync()
     ..writeAsStringSync(buffer.toString());
+  print('Generated font resources!');
 }
