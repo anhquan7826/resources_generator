@@ -24,7 +24,7 @@ const _vectorResources = (
         }
       })
       .whereType<File>()
-      .toList();
+      .toList()..sort();
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : 'packages/$package/'}assets/vectors/${basename(file.path)}',",

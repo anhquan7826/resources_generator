@@ -43,7 +43,7 @@ void _writeStrings({
   String prefix = '',
   required Map<String, dynamic> map,
 }) {
-  for (final entry in map.entries) {
+  for (final entry in map.entries.toList()..sort((a, b) => a.key.compareTo(b.key))) {
     if (entry.value is String) {
       buffer.writeln(
           "${_generateIndent(indent)}${entry.key}: '$prefix${entry.key}',");

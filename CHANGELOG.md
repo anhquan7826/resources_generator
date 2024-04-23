@@ -18,3 +18,7 @@
 ## 1.3.0
 
 - Add `configs/` folder.
+
+## 1.3.1
+
+- Entries now sorted by keys.

@@ -27,7 +27,7 @@ const _fontResources = (
         }
       })
       .whereType<File>()
-      .toList();
+      .toList()..sort();
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/fonts/${basename(file.path)}',",

@@ -27,7 +27,7 @@ const _scriptResources = (
         }
       })
       .whereType<File>()
-      .toList();
+      .toList()..sort();
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/scripts/${basename(file.path)}',",

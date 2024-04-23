@@ -25,7 +25,7 @@ const _colorResources = (
     final map = (json.decode(line) as Map).map((key, value) {
       return MapEntry(key.toString(), value.toString());
     });
-    for (final entry in map.entries) {
+    for (final entry in map.entries.toList()..sort((a, b) => a.key.compareTo(b.key))) {
       buffer.writeln('  ${entry.key}: ${entry.value},');
     }
   } catch (_) {}
