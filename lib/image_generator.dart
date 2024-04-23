@@ -29,7 +29,7 @@ const _imageResources = (
         }
       })
       .whereType<File>()
-      .toList()..sort();
+      .toList()..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
   for (final file in files) {
     buffer.writeln(
       "  ${basenameWithoutExtension(file.path)}: '${package == null ? '' : '$package/'}assets/images/${basename(file.path)}',",
