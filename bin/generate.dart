@@ -7,6 +7,7 @@ import 'package:tek_generator/image_generator.dart';
 import 'package:tek_generator/root_generator.dart';
 import 'package:tek_generator/script_generator.dart';
 import 'package:tek_generator/string_generator.dart';
+import 'package:tek_generator/value_generator.dart';
 import 'package:tek_generator/vector_generator.dart';
 
 void main(List<String> args) {
@@ -44,6 +45,10 @@ void main(List<String> args) {
   );
   generateConfigResources(
     input: '${arguments.assetsLocation}/configs',
+    output: arguments.outputLocation,
+  );
+  generateValueResources(
+    input: '${arguments.assetsLocation}/values',
     output: arguments.outputLocation,
   );
   generateRootResources(

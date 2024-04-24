@@ -50,6 +50,8 @@ class R {
         break;
       case 'config_resources':
         buffer.writeln('  static const configs = _configResources;');
+      case 'value_resources':
+        buffer.writeln('  static const values = _valueResources;');
     }
   }
   buffer.writeln('}');
