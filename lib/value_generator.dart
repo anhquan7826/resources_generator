@@ -31,7 +31,8 @@ const _valueResources = (
       ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
     for (var file in files) {
       final line = file.readAsStringSync();
-      final map = (json.decode(line) as Map).map((key, value) {
+      final jsonObject = json.decode(line);
+      final map = (jsonObject as Map).map((key, value) {
         return MapEntry(key.toString(), value);
       });
       buffer.writeln('  ${basenameWithoutExtension(file.path)}: (');
@@ -71,6 +72,8 @@ void _writeStrings({
         map: entry.value,
       );
       buffer.writeln("${_generateIndent(indent)}),");
+    } else if (entry.value is List) {
+      buffer.writeln('${_generateIndent(indent)}${},');
     }
   }
 }
