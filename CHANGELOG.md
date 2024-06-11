@@ -22,3 +22,7 @@
 ## 1.3.1
 
 - Entries now sorted by keys.
+
+# 1.4.0
+
+- Add support for multi-leveled (map and list) config and value resources.
