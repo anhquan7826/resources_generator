@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:assets_generator/util/extensions/file_ext.dart';
+import 'package:assets_generator/util/filename_util.dart';
 import 'package:path/path.dart';
 
 void generateValueResources({
   required String input,
   required String output,
   String? package,
+  String? flavor,
 }) {
   print('Generating value resources...');
   final directory = Directory(input);
@@ -15,24 +18,28 @@ void generateValueResources({
     return;
   }
   final buffer = StringBuffer(
-    """// ignore_for_file: non_constant_identifier_names
-part of 'resources.dart';
+    """
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+part of '${flavor == null ? '' : '../'}resources.dart';
 
-const _valueResources = (\n""",
+const _${flavor == null ? '' : '${flavor}_'}value_resources = (\n""",
   );
   try {
     final files = directory
         .listSync()
         .where(
-          (element) => element is File && extension(element.path) == '.json',
+          (element) =>
+              element is File &&
+              extension(element.path) == '.json' &&
+              !element.isHidden,
         )
         .cast<File>()
         .toList()
       ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
-    for (var file in files) {
+    for (final file in files) {
       final line = file.readAsStringSync();
       final object = json.decode(line);
-      buffer.write('  ${basenameWithoutExtension(file.path)}: ');
+      buffer.write('  ${safeName(basenameWithoutExtension(file.path))}: ');
       if (object is Map) {
         _genMap(buffer, 4, object.map((key, value) => MapEntry(key, value)));
       }
@@ -40,8 +47,8 @@ const _valueResources = (\n""",
     }
   } catch (_) {}
   buffer.writeln(');');
-  Directory(output).createSync(recursive: true);
-  File('$output/value_resources.dart')
+  Directory(join(output, flavor)).createSync(recursive: true);
+  File(joinAll([output, flavor, 'value_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
   print('Generated values resources!');
@@ -58,7 +65,7 @@ String _generateIndent(int length) {
 void _genMap(StringBuffer buffer, int indent, Map<String, dynamic> map) {
   buffer.write('(\n');
   for (final entry in map.entries) {
-    buffer.write("${_generateIndent(indent)}${entry.key}: ");
+    buffer.write("${_generateIndent(indent)}${safeName(entry.key)}: ");
     if (entry.value is List) {
       _genList(buffer, indent + 2, entry.value);
     } else if (entry.value is Map) {

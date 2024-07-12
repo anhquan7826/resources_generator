@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:assets_generator/util/extensions/file_ext.dart';
+import 'package:assets_generator/util/filename_util.dart';
 import 'package:path/path.dart';
 
 void generateStringResources({
   required String input,
   required String output,
   String? package,
+  String? flavor,
 }) {
   print('Generating string resources...');
   final directory = Directory(input);
@@ -15,15 +18,15 @@ void generateStringResources({
     return;
   }
   final buffer = StringBuffer("""
-// ignore_for_file: non_constant_identifier_names
-part of 'resources.dart';
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+part of '${flavor == null ? '' : '../'}resources.dart';
 
-const _stringResources = (
+const _${flavor == null ? '' : '${flavor}_'}string_resources = (
 """);
   try {
     final file = directory.listSync().firstWhere(
       (element) {
-        return element is File && extension(element.path) == '.json';
+        return element is File && extension(element.path) == '.json' && !element.isHidden;
       },
     ) as File;
     final line = file.readAsStringSync();
@@ -36,8 +39,8 @@ const _stringResources = (
     );
   } catch (_) {}
   buffer.writeln(');');
-  Directory(output).createSync(recursive: true);
-  File('$output/string_resources.dart')
+  Directory(join(output, flavor)).createSync(recursive: true);
+  File(joinAll([output, flavor, 'string_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
   print('Generated string resources!');
@@ -53,7 +56,7 @@ void _writeStrings({
     ..sort((a, b) => a.key.compareTo(b.key))) {
     if (entry.value is String) {
       buffer.writeln(
-          "${_generateIndent(indent)}${entry.key}: '$prefix${entry.key}',");
+          "${_generateIndent(indent)}${safeName(entry.key)}: '$prefix${entry.key}',");
     } else if (entry.value is Map) {
       buffer.writeln("${_generateIndent(indent)}${entry.key}: (");
       _writeStrings(

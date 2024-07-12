@@ -1,12 +1,17 @@
 # Resource generator
 
-## Features
+## Tính năng
 
-Generate resource class from assets folder.
+Generate một resource class từ thư mục assets, tương tự với class `R` trên Android.
 
-## Getting started
+## Thiết lập
 
-Before using this generator, your assets folder must have this structure:<br>
+Generator hỗ trợ generate thư mục assets thông thường và thư mục assets phân chia theo các flavor.<br>
+
+### Không có flavor
+
+Cấu trúc thư mục yêu cầu để có thể sử dụng được generator:<br>
+
 ```
 <your-project>
 ├── <assets-folder>/
@@ -16,31 +21,64 @@ Before using this generator, your assets folder must have this structure:<br>
    ├── fonts/ (for fonts)
    ├── scripts/ (for shell scripts)
    ├── configs/ (for JSON configurations)
+   ├── raws/ (for raw files)
 ├── lib/
 ├── pubspec.yaml
 ```
 
-## Usage
+### Có flavor
 
-Activate executable:<br>
+Cấu trúc thư mục yêu cầu để có thể sử dụng được generator:<br>
+
 ```
-dart pub global activate tek_generator
+<your-project>
+├── <assets-folder>/
+   ├── all/ <common for all flavors>
+      ├── images/ (for images)
+      ├── vectors/ (for vector images or svg)
+      ├── translations/ (for localizations)
+      ├── fonts/ (for fonts)
+      ├── scripts/ (for shell scripts)
+      ├── configs/ (for JSON configurations)
+      ├── raws/ (for raw files)
+   ├── <flavor-0>
+      ├── ... (same as all/)
+   ├── <flavor-1>
+      ├── ... (same as all/)
+   ├── <flavor-2>
+      ├── ... (same as all/)
+   ├── ...
+├── lib/
+├── pubspec.yaml
 ```
 
-`cd` to your ptoject folder:
+## Cách sử dụng
+
+Kích hoạt executable:<br>
+```
+dart pub global activate --source path tools/assets_generator
+```
+
+`cd` vào thư mục project:
 ```
 cd <your-project>
 ```
 
-Run the generator:
+Chạy generator:
 ```
-dart pub global run tek_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package>
+dart pub global run assets_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package> -f
 ```
-where:
-- `-i`, optional, is the assets folder, default to `assets`.
-- `-o`, optional, is the output folder, default to `resources`.
-- `-p`, optional, is the package name if assets are in a package/module instead of an application.
+với:
+- `-i` hay `--input`, tuỳ chọn, là thư mục assets đầu vào, mặc định là `assets`.
+- `-o` hay `--output`, tuỳ chọn, là thư mục đầu ra, mặc định là `lib/resources`.
+- `-p` hay `--package`, tuỳ chọn, là tên của package nếu các assets nằm ở các package/module riêng lẻ thay vì ở application.
+- `-f` hay `--with-flavor`, tuỳ chọn, sẽ generate class thành các flavor.
 
-## Contact
+## Lưu ý
 
-Contact Nguyen Anh Quan (anhquan7826@gmail.com or quan.na@teko.vn) for more information or requests.
+- Đối với fonts, các font phải có tên theo format: `<family>-<attr-1>-<attr-2>.ttf`. Với các attr là font style và font weight<br>
+Ví dụ: Roboto-Italic-w600.ttf
+
+## Tác giả
+
+Nguyễn Anh Quân (anhquan7826@gmail.com).

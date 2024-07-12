@@ -1,7 +1,7 @@
-name: tek_generator
+name: assets_generator
 description: An resource class generator for Flutter, like Android resource class R.
-version: 1.4.0
-repository: https://github.com/anhquan7826/tek_generator
+version: 2.0.2
+repository: https://github.com/anhquan7826/assets_generator
 
 platforms:
   android:
@@ -18,7 +18,10 @@ environment:
   sdk: ^3.3.3
 
 dependencies:
+  collection: ^1.18.0
   path: ^1.9.0
+  yaml: ^3.1.2
+  yaml_edit: ^2.2.1
 
 dev_dependencies:
   lints: ^3.0.0
