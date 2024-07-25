@@ -1,16 +1,16 @@
 # Resource generator
 
-## Tính năng
+## Feature
 
-Generate một resource class từ thư mục assets, tương tự với class `R` trên Android.
+Generate a resource class from `assets/` folder, similar to `R` class on Android.
 
-## Thiết lập
+## Configurations
 
-Generator hỗ trợ generate thư mục assets thông thường và thư mục assets phân chia theo các flavor.<br>
+This generator supports generate common assets folder and assets folder divided by flavors.
 
-### Không có flavor
+### Without flavor
 
-Cấu trúc thư mục yêu cầu để có thể sử dụng được generator:<br>
+Required structure for assets folder:
 
 ```
 <your-project>
@@ -26,9 +26,9 @@ Cấu trúc thư mục yêu cầu để có thể sử dụng được generator
 ├── pubspec.yaml
 ```
 
-### Có flavor
+### With flavor
 
-Cấu trúc thư mục yêu cầu để có thể sử dụng được generator:<br>
+Required structure for assets folder:
 
 ```
 <your-project>
@@ -52,33 +52,29 @@ Cấu trúc thư mục yêu cầu để có thể sử dụng được generator
 ├── pubspec.yaml
 ```
 
-## Cách sử dụng
+## Usage
 
-Kích hoạt executable:<br>
+Activate the executable:
 ```
-dart pub global activate --source path tools/assets_generator
+dart pub global activate resources_generator
 ```
 
-`cd` vào thư mục project:
+`cd` into project root:
 ```
 cd <your-project>
 ```
 
-Chạy generator:
+Execute the generator:
 ```
-dart pub global run assets_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package> -f
+dart pub global run resources_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package> -f
 ```
-với:
-- `-i` hay `--input`, tuỳ chọn, là thư mục assets đầu vào, mặc định là `assets`.
-- `-o` hay `--output`, tuỳ chọn, là thư mục đầu ra, mặc định là `lib/resources`.
-- `-p` hay `--package`, tuỳ chọn, là tên của package nếu các assets nằm ở các package/module riêng lẻ thay vì ở application.
-- `-f` hay `--with-flavor`, tuỳ chọn, sẽ generate class thành các flavor.
+with:
+- `-i` or `--input`, optional, is the input assets folder, default to `assets`.
+- `-o` or `--output`, optional, is the output folder, default to `lib/resources`.
+- `-p` or `--package`, optional, is the package name if assets is in a package/module instead of an application..
+- `-f` or `--with-flavor`, optional, will generate the resource class into flavors.
 
-## Lưu ý
+## Note
 
-- Đối với fonts, các font phải có tên theo format: `<family>-<attr-1>-<attr-2>.ttf`. Với các attr là font style và font weight<br>
-Ví dụ: Roboto-Italic-w600.ttf
-
-## Tác giả
-
-Nguyễn Anh Quân (anhquan7826@gmail.com).
+- For generating fonts, font file names must have this format: `<family>-<attr-1>-<attr-2>.ttf`, with attrs to be font style and font weight<br>
+Example: Roboto-Italic-w600.ttf

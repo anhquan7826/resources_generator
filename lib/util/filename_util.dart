@@ -1,4 +1,4 @@
-import 'package:assets_generator/util/dart_keywords.dart';
+import 'package:resources_generator/util/dart_keywords.dart';
 
 String safeName(String name) {
   var trimmed = name

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:assets_generator/util/extensions/file_ext.dart';
-import 'package:assets_generator/util/filename_util.dart';
-import 'package:assets_generator/util/path_util.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
+import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/path_util.dart';
 
 void generateVectorResources({
   required String input,

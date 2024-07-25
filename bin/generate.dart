@@ -1,19 +1,19 @@
 import 'dart:io';
 
-import 'package:assets_generator/generators/color_generator.dart';
-import 'package:assets_generator/generators/config_generator.dart';
-import 'package:assets_generator/generators/font_generator.dart';
-import 'package:assets_generator/generators/image_generator.dart';
-import 'package:assets_generator/generators/pubspec_generator.dart';
-import 'package:assets_generator/generators/raw_generator.dart';
-import 'package:assets_generator/generators/root_generator.dart';
-import 'package:assets_generator/generators/script_generator.dart';
-import 'package:assets_generator/generators/string_generator.dart';
-import 'package:assets_generator/generators/value_generator.dart';
-import 'package:assets_generator/generators/vector_generator.dart';
-import 'package:assets_generator/util/arguments.dart';
-import 'package:assets_generator/util/constants.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/generators/color_generator.dart';
+import 'package:resources_generator/generators/config_generator.dart';
+import 'package:resources_generator/generators/font_generator.dart';
+import 'package:resources_generator/generators/image_generator.dart';
+import 'package:resources_generator/generators/pubspec_generator.dart';
+import 'package:resources_generator/generators/raw_generator.dart';
+import 'package:resources_generator/generators/root_generator.dart';
+import 'package:resources_generator/generators/script_generator.dart';
+import 'package:resources_generator/generators/string_generator.dart';
+import 'package:resources_generator/generators/value_generator.dart';
+import 'package:resources_generator/generators/vector_generator.dart';
+import 'package:resources_generator/util/arguments.dart';
+import 'package:resources_generator/util/constants.dart';
 
 void main(List<String> args) {
   final arguments = Arguments.read(args);

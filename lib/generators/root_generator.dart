@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:assets_generator/util/constants.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/util/constants.dart';
 
 void generateRootResources({required String output}) {
   final directory = Directory(output);

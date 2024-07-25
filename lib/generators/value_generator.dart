@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:assets_generator/util/extensions/file_ext.dart';
-import 'package:assets_generator/util/filename_util.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
+import 'package:resources_generator/util/filename_util.dart';
 
 void generateValueResources({
   required String input,

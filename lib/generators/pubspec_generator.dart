@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:assets_generator/util/constants.dart';
-import 'package:assets_generator/util/extensions/yaml_editor_ext.dart';
-import 'package:assets_generator/util/font_util.dart';
 import 'package:collection/collection.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/util/constants.dart';
+import 'package:resources_generator/util/extensions/yaml_editor_ext.dart';
+import 'package:resources_generator/util/font_util.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 void declarePubspecAssets(
