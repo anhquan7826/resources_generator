@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/extensions/scope_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateColorResources({
@@ -13,10 +14,10 @@ void generateColorResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating color resources...');
+  Logger.verboseLog('Generating color resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('colors/ folder is not exist. Skipping...');
+    Logger.verboseLog('colors/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -43,7 +44,7 @@ const _${flavor == null ? '' : '${flavor}_'}color_resources = (
   File(joinAll([output, flavor, 'color_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated color resources!');
+  Logger.verboseLog('Generated color resources!');
 }
 
 void _writeColorsSingle(File file, StringBuffer buffer) {

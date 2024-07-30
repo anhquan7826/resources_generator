@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/path_util.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
@@ -12,10 +13,10 @@ void generateScriptResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating script resources...');
+  Logger.verboseLog('Generating script resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('scripts/ folder is not exist. Skipping...');
+    Logger.verboseLog('scripts/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -49,5 +50,5 @@ const _${flavor == null ? '' : '${flavor}_'}script_resources = (
   File(joinAll([output, flavor, 'script_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated script resources!');
+  Logger.verboseLog('Generated script resources!');
 }

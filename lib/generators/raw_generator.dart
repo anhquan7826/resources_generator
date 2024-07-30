@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/path_util.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
@@ -12,10 +13,10 @@ void generateRawResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating raw resources...');
+  Logger.verboseLog('Generating raw resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('raw/ folder is not exist. Skipping...');
+    Logger.verboseLog('raw/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -44,5 +45,5 @@ const _${flavor == null ? '' : '${flavor}_'}raw_resources = (
   File(joinAll([output, flavor, 'raw_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated raw resources!');
+  Logger.verboseLog('Generated raw resources!');
 }

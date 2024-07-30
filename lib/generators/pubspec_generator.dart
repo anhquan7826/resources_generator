@@ -5,13 +5,14 @@ import 'package:path/path.dart';
 import 'package:resources_generator/util/constants.dart';
 import 'package:resources_generator/util/extensions/yaml_editor_ext.dart';
 import 'package:resources_generator/util/font_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 void declarePubspecAssets(
   String assetsPath, {
   required bool hasFlavors,
 }) {
-  print('Updating pubspec.yaml...');
+  Logger.verboseLog('Updating pubspec.yaml...');
   final pubspec = File('pubspec.yaml');
   final editor = YamlEditor(
     pubspec.readAsStringSync(),
@@ -41,7 +42,7 @@ void declarePubspecAssets(
         );
         return assets;
       } catch (_) {
-        print(
+        Logger.log(
           'Invalid font names detected at $flavor flavor! Manual fonts declaration in pubspec.yaml is needed!',
         );
         return <FontAsset>[];
@@ -103,7 +104,7 @@ void declarePubspecAssets(
     try {
       fonts = getFontsAttributes(join(assetsPath, 'fonts'));
     } catch (_) {
-      print(
+      Logger.log(
         'Invalid font names detected! Manual fonts declaration in pubspec.yaml is needed!',
       );
     }
@@ -134,5 +135,5 @@ void declarePubspecAssets(
     }
   }
   pubspec.writeAsStringSync(editor.toString());
-  print('pubspec.yaml updated!');
+  Logger.verboseLog('pubspec.yaml updated!');
 }

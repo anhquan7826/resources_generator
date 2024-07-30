@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/path_util.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
@@ -12,10 +13,10 @@ void generateFontResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating font resources...');
+  Logger.verboseLog('Generating font resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('fonts/ folder is not exist. Skipping...');
+    Logger.verboseLog('fonts/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -50,5 +51,5 @@ const _${flavor == null ? '' : '${flavor}_'}font_resources = (
   File(joinAll([output, flavor, 'font_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated font resources!');
+  Logger.verboseLog('Generated font resources!');
 }

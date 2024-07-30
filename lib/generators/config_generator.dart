@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateConfigResources({
@@ -12,10 +13,10 @@ void generateConfigResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating config resources...');
+  Logger.verboseLog('Generating config resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('configs/ folder is not exist. Skipping...');
+    Logger.verboseLog('configs/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer(
@@ -52,7 +53,7 @@ const _${flavor == null ? '' : '${flavor}_'}config_resources = (\n""",
   File(joinAll([output, flavor, 'config_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated config resources!');
+  Logger.verboseLog('Generated config resources!');
 }
 
 String _generateIndent(int length) {

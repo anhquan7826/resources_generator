@@ -68,6 +68,10 @@ Execute the generator:
 ```
 dart pub global run resources_generator:generate -i <assets-folder> -o <output-folder> -p <optional-package> -f
 ```
+or execute automatically when assets changes:
+```
+dart pub global run resources_generator:monitor -i <assets-folder> -o <output-folder> -p <optional-package> -f
+```
 with:
 - `-i` or `--input`, optional, is the input assets folder, default to `assets`.
 - `-o` or `--output`, optional, is the output folder, default to `lib/resources`.

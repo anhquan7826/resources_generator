@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/logger.dart';
 
 void generateStringResources({
   required String input,
@@ -11,10 +12,10 @@ void generateStringResources({
   String? package,
   String? flavor,
 }) {
-  print('Generating string resources...');
+  Logger.verboseLog('Generating string resources...');
   final directory = Directory(input);
   if (!directory.existsSync()) {
-    print('translations/ folder is not exist. Skipping...');
+    Logger.verboseLog('translations/ folder is not exist. Skipping...');
     return;
   }
   final buffer = StringBuffer("""
@@ -43,7 +44,7 @@ const _${flavor == null ? '' : '${flavor}_'}string_resources = (
   File(joinAll([output, flavor, 'string_resources.dart'].whereType<String>()))
     ..createSync()
     ..writeAsStringSync(buffer.toString());
-  print('Generated string resources!');
+  Logger.verboseLog('Generated string resources!');
 }
 
 void _writeStrings({
@@ -58,22 +59,22 @@ void _writeStrings({
       buffer.writeln(
           "${_generateIndent(indent)}${safeName(entry.key)}: '$prefix${entry.key}',");
     } else if (entry.value is Map) {
-      buffer.writeln("${_generateIndent(indent)}${entry.key}: (");
+      buffer.writeln('${_generateIndent(indent)}${entry.key}: (');
       _writeStrings(
         buffer: buffer,
         indent: indent + 2,
         prefix: prefix.isEmpty ? '${entry.key}.' : '$prefix.${entry.key}.',
         map: entry.value,
       );
-      buffer.writeln("${_generateIndent(indent)}),");
+      buffer.writeln('${_generateIndent(indent)}),');
     }
   }
 }
 
 String _generateIndent(int length) {
-  String result = '';
+  final result = StringBuffer();
   for (int i = 0; i < length; i++) {
-    result += ' ';
+    result.write(' ');
   }
-  return result;
+  return result.toString();
 }

@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:resources_generator/util/logger.dart';
+
 enum _ArgTypes {
   input('input', 'i'),
   output('output', 'o'),
   package('package', 'p'),
-  withFlavor('with-flavor', 'f');
+  withFlavor('with-flavor', 'f'),
+  verbose('verbose', 'v');
 
   const _ArgTypes(this.full, this.short);
 
@@ -22,6 +25,9 @@ enum _ArgTypes {
     if (arg == withFlavor.full || arg == withFlavor.short) {
       return _ArgTypes.withFlavor;
     }
+    if (arg == verbose.full || arg == verbose.short) {
+      return _ArgTypes.verbose;
+    }
     throw UnimplementedError();
   }
 
@@ -35,6 +41,7 @@ class Arguments {
     this.outputLocation = 'lib/resources',
     this.package,
     this.withFlavors = false,
+    this.verbose = false,
   });
 
   factory Arguments.read(List<String> args) {
@@ -44,6 +51,7 @@ class Arguments {
       outputLocation: arguments[_ArgTypes.output]?.first ?? 'lib/resources',
       package: arguments[_ArgTypes.package]?.first.replaceAll('/', ''),
       withFlavors: arguments[_ArgTypes.withFlavor] != null,
+      verbose: arguments[_ArgTypes.verbose] != null,
     );
   }
 
@@ -67,6 +75,7 @@ class Arguments {
               }
               break;
             case _ArgTypes.withFlavor:
+            case _ArgTypes.verbose:
               result[argType] = [];
               i++;
               break;
@@ -76,7 +85,7 @@ class Arguments {
         }
       }
     } catch (e) {
-      print(e);
+      Logger.log(e);
       exit(1);
     }
     return result;
@@ -86,4 +95,5 @@ class Arguments {
   final String outputLocation;
   final String? package;
   final bool withFlavors;
+  final bool verbose;
 }
