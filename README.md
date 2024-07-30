@@ -84,13 +84,13 @@ Example:
    - For single file:<br>
       ```
       ├── <assets-folder>/
-         ├── images/ (for images)
+         ├── colors/
             ├── colors.json
       ```
    - For multiple files (multi variants colors):<br>
       ```
       ├── <assets-folder>/
-         ├── images/ (for images)
+         ├── colors/
             ├── colors_dark.json
             ├── colors_light.json
       ```
