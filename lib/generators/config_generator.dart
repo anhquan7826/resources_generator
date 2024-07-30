@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateConfigResources({
   required String input,
@@ -35,7 +36,7 @@ const _${flavor == null ? '' : '${flavor}_'}config_resources = (\n""",
         )
         .cast<File>()
         .toList()
-      ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+      ..sort(sortFilesByName);
     for (final file in files) {
       final line = file.readAsStringSync();
       final object = json.decode(line);
@@ -55,17 +56,17 @@ const _${flavor == null ? '' : '${flavor}_'}config_resources = (\n""",
 }
 
 String _generateIndent(int length) {
-  String result = '';
+  final buffer = StringBuffer();
   for (int i = 0; i < length; i++) {
-    result += ' ';
+    buffer.write(' ');
   }
-  return result;
+  return buffer.toString();
 }
 
 void _genMap(StringBuffer buffer, int indent, Map<String, dynamic> map) {
   buffer.write('(\n');
   for (final entry in map.entries) {
-    buffer.write("${_generateIndent(indent)}${safeName(entry.key)}: ");
+    buffer.write('${_generateIndent(indent)}${safeName(entry.key)}: ');
     if (entry.value is List) {
       _genList(buffer, indent + 2, entry.value);
     } else if (entry.value is Map) {
@@ -109,5 +110,5 @@ void _genString(StringBuffer buffer, int indent, String string) {
 }
 
 void _genElse(StringBuffer buffer, int indent, dynamic value) {
-  buffer.write("${_generateIndent(indent)}$value");
+  buffer.write('${_generateIndent(indent)}$value');
 }

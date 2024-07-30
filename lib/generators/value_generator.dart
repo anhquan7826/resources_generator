@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
+import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateValueResources({
   required String input,
@@ -35,7 +36,7 @@ const _${flavor == null ? '' : '${flavor}_'}value_resources = (\n""",
         )
         .cast<File>()
         .toList()
-      ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+      ..sort(sortFilesByName);
     for (final file in files) {
       final line = file.readAsStringSync();
       final object = json.decode(line);

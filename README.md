@@ -76,5 +76,21 @@ with:
 
 ## Note
 
-- For generating fonts, font file names must have this format: `<family>-<attr-1>-<attr-2>.ttf`, with attrs to be font style and font weight<br>
-Example: Roboto-Italic-w600.ttf
+- For generating fonts, font file names must have this format: `<family>-<attr-1>-<attr-2>.ttf`, with attrs to be font style and font weight. These attrs are optional.<br>
+Example: Roboto.ttf, Roboto-Italic.ttf, Roboto-Italic-w600.ttf
+
+- For generating colors, all json files must have `colors` as file name prefix. Based on the numbers of file with this prefix, the generator will generate the suitable resource file.<br>
+Example:
+   - For single file:<br>
+      ```
+      ├── <assets-folder>/
+         ├── images/ (for images)
+            ├── colors.json
+      ```
+   - For multiple files (multi variants colors):<br>
+      ```
+      ├── <assets-folder>/
+         ├── images/ (for images)
+            ├── colors_dark.json
+            ├── colors_light.json
+      ```

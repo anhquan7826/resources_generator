@@ -6,7 +6,7 @@ String safeName(String name) {
       .replaceAll(RegExp(r'\W'), '_')
       .replaceAll(RegExp('_{2,}'), '_');
   if (dartKeywords.contains(trimmed)) {
-    trimmed = '${trimmed}_';
+    trimmed = '$trimmed\$';
   }
   return trimmed;
 }

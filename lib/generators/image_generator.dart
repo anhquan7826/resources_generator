@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
 import 'package:resources_generator/util/path_util.dart';
+import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateImageResources({
   required String input,
@@ -41,7 +42,7 @@ const _${flavor == null ? '' : '${flavor}_'}image_resources = (
         ].contains(extension(e.path)) &&
         !e.isHidden;
   }).toList()
-    ..sort((a, b) => basename(a.path).compareTo(basename(b.path)));
+    ..sort(sortFilesByName);
   for (final file in files) {
     final relativePath = getRelativePath(
       file.absolute.uri.path,

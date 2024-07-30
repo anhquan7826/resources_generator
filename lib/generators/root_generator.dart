@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:resources_generator/util/constants.dart';
+import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateRootResources({required String output}) {
   final directory = Directory(output);
@@ -19,7 +20,7 @@ void generateRootResources({required String output}) {
       .whereType<File>()
       .toList()
     ..sort(
-      (a, b) => basename(a.path).compareTo(basename(b.path)),
+      sortFilesByName,
     );
   for (final file in files) {
     buffer.writeln("part '${basename(file.path)}';");
@@ -99,7 +100,7 @@ void generateRootResourcesWithFlavor({required String output}) {
           .cast<File>()
           .toList()
         ..sort(
-          (a, b) => basename(a.path).compareTo(basename(b.path)),
+          sortFilesByName,
         );
       for (final file in files) {
         fileCallback?.call(flavor, file);
