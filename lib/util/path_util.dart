@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:resources_generator/util/extensions/file_ext.dart';
+
 String getCurrentPath() {
-  return Directory.current.path;
+  return Directory.current.unixPath;
 }
 
 String getRelativePath(String absolutePath, String basePath) {

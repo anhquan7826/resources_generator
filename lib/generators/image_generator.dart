@@ -40,19 +40,19 @@ const _${flavor == null ? '' : '${flavor}_'}image_resources = (
           '.heif',
           '.raw',
           '.ico',
-        ].contains(extension(e.path)) &&
+        ].contains(extension(e.unixPath)) &&
         !e.isHidden;
   }).toList()
     ..sort(sortFilesByName);
   for (final file in files) {
     final relativePath = getRelativePath(
-      file.absolute.uri.path,
+      file.absolute.unixPath,
       getCurrentPath(),
     );
     final fullPath =
         (package == null ? '' : 'packages/$package/') + relativePath;
     buffer.writeln(
-      "  ${safeName(basenameWithoutExtension(file.path))}: '$fullPath',",
+      "  ${safeName(basenameWithoutExtension(file.unixPath))}: '$fullPath',",
     );
   }
   buffer.writeln(');');

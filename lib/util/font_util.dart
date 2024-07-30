@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:path/path.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
 
 final _fontStyles = {
   'italic',
@@ -74,17 +75,17 @@ List<FontAsset> getFontsAttributes(
   }
   final files = dir.listSync().where((element) {
     return element is File &&
-        ['.ttc', '.ttf', '.otf'].contains(extension(element.path));
+        ['.ttc', '.ttf', '.otf'].contains(extension(element.unixPath));
   });
   final grouped = groupBy(files, (s) {
-    final parts = basenameWithoutExtension(s.path).split('-');
+    final parts = basenameWithoutExtension(s.unixPath).split('-');
     return parts.first;
   });
   return grouped.entries.map((e) {
     final family = e.key;
     return FontAsset(
       family: family,
-      assets: e.value.map((f) => f.path).toList(),
+      assets: e.value.map((f) => f.unixPath).toList(),
       flavor: flavor,
     );
   }).toList();

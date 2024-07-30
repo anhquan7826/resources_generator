@@ -13,3 +13,8 @@
 ## 1.0.3
 
 - Add ability to monitor assets files changes.
+
+## 1.0.4
+
+- Fix not being able to watch file system changes on Linux.
+- Fix assets path not being Unix path when generating on Windows.

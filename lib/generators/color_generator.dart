@@ -29,9 +29,9 @@ const _${flavor == null ? '' : '${flavor}_'}color_resources = (
   try {
     final files = directory.listSync().where((fs) {
       return fs is File &&
-          extension(fs.path) == '.json' &&
+          extension(fs.unixPath) == '.json' &&
           !fs.isHidden &&
-          basenameWithoutExtension(fs.path).startsWith('colors');
+          basenameWithoutExtension(fs.unixPath).startsWith('colors');
     }).cast<File>().toList()..sort(sortFilesByName);
     if (files.length == 1) {
       _writeColorsSingle(files.first, buffer);
@@ -75,7 +75,7 @@ void _writeColorsMultiple(Iterable<File> files, StringBuffer buffer) {
     if (object is! Map) {
       continue;
     }
-    final variant = basenameWithoutExtension(file.path).let((it) {
+    final variant = basenameWithoutExtension(file.unixPath).let((it) {
       String name;
       try {
         name = it.substring('colors_'.length);

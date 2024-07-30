@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:resources_generator/util/constants.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
 
 void generateRootResources({required String output}) {
@@ -11,8 +12,8 @@ void generateRootResources({required String output}) {
       .listSync()
       .map((e) {
         if (e is File) {
-          if (extension(e.path) == '.dart' &&
-              basename(e.path) != 'resources.dart') {
+          if (extension(e.unixPath) == '.dart' &&
+              basename(e.unixPath) != 'resources.dart') {
             return e;
           }
         }
@@ -23,7 +24,7 @@ void generateRootResources({required String output}) {
       sortFilesByName,
     );
   for (final file in files) {
-    buffer.writeln("part '${basename(file.path)}';");
+    buffer.writeln("part '${basename(file.unixPath)}';");
   }
   buffer.writeln('''
 
@@ -31,7 +32,7 @@ class R {
   R._();
 ''');
   for (final file in files) {
-    switch (basenameWithoutExtension(file.path)) {
+    switch (basenameWithoutExtension(file.unixPath)) {
       case 'string_resources':
         buffer.writeln('  static const strings = _string_resources;');
         break;
@@ -80,8 +81,8 @@ void generateRootResourcesWithFlavor({required String output}) {
   }) {
     final flavors = directory.listSync().whereType<Directory>().toList()
       ..sort((a, b) {
-        final baseA = basename(a.path);
-        final baseB = basename(b.path);
+        final baseA = basename(a.unixPath);
+        final baseB = basename(b.unixPath);
         if (baseA == flavorDefault) {
           return -1;
         }
@@ -95,7 +96,7 @@ void generateRootResourcesWithFlavor({required String output}) {
       final files = flavor
           .listSync()
           .where((element) {
-            return element is File && extension(element.path) == '.dart';
+            return element is File && extension(element.unixPath) == '.dart';
           })
           .cast<File>()
           .toList()
@@ -112,7 +113,7 @@ void generateRootResourcesWithFlavor({required String output}) {
   forEachFileInFlavors(
     directory,
     fileCallback: (flavor, file) {
-      buffer.writeln("part '${basename(flavor.path)}/${basename(file.path)}';");
+      buffer.writeln("part '${basename(flavor.unixPath)}/${basename(file.unixPath)}';");
     },
     flavorEndCallback: (flavor) {
       buffer.writeln();
@@ -124,11 +125,11 @@ class R {
   forEachFileInFlavors(
     directory,
     flavorStartCallback: (flavor) {
-      buffer.writeln('\n  static const ${basename(flavor.path)} = (');
+      buffer.writeln('\n  static const ${basename(flavor.unixPath)} = (');
     },
     fileCallback: (flavor, file) {
-      final flavorName = basename(flavor.path);
-      switch (basenameWithoutExtension(file.path)) {
+      final flavorName = basename(flavor.unixPath);
+      switch (basenameWithoutExtension(file.unixPath)) {
         case 'string_resources':
           buffer.writeln('    strings: _${flavorName}_string_resources,');
           break;

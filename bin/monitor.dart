@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:resources_generator/process.dart';
 import 'package:resources_generator/util/arguments.dart';
 import 'package:resources_generator/util/logger.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:watcher/watcher.dart';
 
 void main(List<String> args) {
   Logger.log('Generator started!');
@@ -20,14 +23,9 @@ void main(List<String> args) {
     }
   }
   Logger.verbose = arguments.verbose;
-  final monitorSubscription =
-      Directory(arguments.assetsLocation).watch(recursive: true).listen((_) {
+  final monitorSubscription = _monitorFileSystem(arguments.assetsLocation, () {
     Logger.log('Assets folder changed! Generating...');
-    if (arguments.withFlavors) {
-      generateWithFlavors(arguments);
-    } else {
-      generate(arguments);
-    }
+    _generate(arguments);
     Logger.log('Resources generated!');
   });
   _monitorProcessSignal(() {
@@ -35,10 +33,29 @@ void main(List<String> args) {
     Logger.log('Generator finished!');
     exit(0);
   });
+  _generate(arguments);
+}
+
+void _generate(Arguments arguments) {
+  if (arguments.withFlavors) {
+    generateWithFlavors(arguments);
+  } else {
+    generate(arguments);
+  }
+}
+
+StreamSubscription _monitorFileSystem(String path, void Function() onChange) {
+  const delay = Duration(seconds: 1);
+  return DirectoryWatcher(path, pollingDelay: delay)
+      .events
+      .debounceTime(delay)
+      .listen((_) {
+    onChange();
+  });
 }
 
 void _monitorProcessSignal(void Function() onSignal) {
-ProcessSignal.sigint.watch().listen((_) {
+  ProcessSignal.sigint.watch().listen((_) {
     onSignal();
   });
   ProcessSignal.sigusr1.watch().listen((_) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:path/path.dart';
 import 'package:resources_generator/util/constants.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/extensions/yaml_editor_ext.dart';
 import 'package:resources_generator/util/font_util.dart';
 import 'package:resources_generator/util/logger.dart';
@@ -23,21 +24,21 @@ void declarePubspecAssets(
         Directory(assetsPath).listSync().whereType<Directory>().toList()
           ..sort(
             (a, b) {
-              if (basename(a.path) == flavorDefault) {
+              if (basename(a.unixPath) == flavorDefault) {
                 return -1;
               }
-              if (basename(b.path) == flavorDefault) {
+              if (basename(b.unixPath) == flavorDefault) {
                 return 1;
               }
-              return basename(a.path).compareTo(basename(b.path));
+              return basename(a.unixPath).compareTo(basename(b.unixPath));
             },
           );
     // Lấy ra các font trong tất cả các flavor để khai báo.
     final fonts = flavorDirs.map((dir) {
-      final flavor = basename(dir.path);
+      final flavor = basename(dir.unixPath);
       try {
         final assets = getFontsAttributes(
-          join(dir.path, 'fonts'),
+          join(dir.unixPath, 'fonts'),
           flavor: flavor == flavorDefault ? null : flavor,
         );
         return assets;
@@ -54,20 +55,20 @@ void declarePubspecAssets(
       'assets',
       flavorDirs
           .map((flavorDir) {
-            final flavor = basename(flavorDir.path);
+            final flavor = basename(flavorDir.unixPath);
             return flavorDir
                 .listSync()
                 .where((e) {
                   return e is Directory &&
-                      supportedFolders.contains(basename(e.path));
+                      supportedFolders.contains(basename(e.unixPath));
                 })
-                .sortedBy((subfolder) => basename(subfolder.path))
+                .sortedBy((subfolder) => basename(subfolder.unixPath))
                 .map((subfolder) {
                   if (flavor == flavorDefault) {
-                    return '${subfolder.path}/';
+                    return '${subfolder.unixPath}/';
                   } else {
                     return {
-                      'path': '${subfolder.path}/',
+                      'path': '${subfolder.unixPath}/',
                       'flavors': [flavor],
                     };
                   }
@@ -97,9 +98,9 @@ void declarePubspecAssets(
     }
   } else {
     final dirs = Directory(assetsPath).listSync().where((e) {
-      return e is Directory && supportedFolders.contains(basename(e.path));
+      return e is Directory && supportedFolders.contains(basename(e.unixPath));
     }).toList()
-      ..sortBy((e) => basename(e.path));
+      ..sortBy((e) => basename(e.unixPath));
     List<FontAsset> fonts = [];
     try {
       fonts = getFontsAttributes(join(assetsPath, 'fonts'));
@@ -112,7 +113,7 @@ void declarePubspecAssets(
       editor.appendToMap(
         ['flutter'],
         'assets',
-        dirs.map((e) => '${e.path}/').toList(),
+        dirs.map((e) => '${e.unixPath}/').toList(),
       );
     }
     if (fonts.isNotEmpty) {

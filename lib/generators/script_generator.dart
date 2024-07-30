@@ -30,19 +30,19 @@ const _${flavor == null ? '' : '${flavor}_'}script_resources = (
         [
           '.sh',
           '.bat',
-        ].contains(extension(element.path)) &&
+        ].contains(extension(element.unixPath)) &&
         !element.isHidden;
   }).toList()
     ..sort(sortFilesByName);
   for (final file in files) {
     final relativePath = getRelativePath(
-      file.absolute.uri.path,
+      file.absolute.unixPath,
       getCurrentPath(),
     );
     final fullPath =
         (package == null ? '' : 'packages/$package/') + relativePath;
     buffer.writeln(
-      "  ${safeName(basenameWithoutExtension(file.path))}: '$fullPath',",
+      "  ${safeName(basenameWithoutExtension(file.unixPath))}: '$fullPath',",
     );
   }
   buffer.writeln(');');

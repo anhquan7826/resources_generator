@@ -1,6 +1,6 @@
 name: resources_generator
 description: An resource class generator for Flutter, like Android resource class R.
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/anhquan7826/resources_generator
 
 platforms:
@@ -21,6 +21,8 @@ environment:
 dependencies:
   collection: ^1.18.0
   path: ^1.9.0
+  rxdart: ^0.28.0
+  watcher: ^1.1.0
   yaml: ^3.1.2
   yaml_edit: ^2.2.1
 

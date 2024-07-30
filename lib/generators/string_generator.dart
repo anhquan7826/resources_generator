@@ -27,7 +27,7 @@ const _${flavor == null ? '' : '${flavor}_'}string_resources = (
   try {
     final file = directory.listSync().firstWhere(
       (element) {
-        return element is File && extension(element.path) == '.json' && !element.isHidden;
+        return element is File && extension(element.unixPath) == '.json' && !element.isHidden;
       },
     ) as File;
     final line = file.readAsStringSync();

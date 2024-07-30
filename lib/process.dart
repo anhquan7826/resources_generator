@@ -14,6 +14,7 @@ import 'package:resources_generator/generators/value_generator.dart';
 import 'package:resources_generator/generators/vector_generator.dart';
 import 'package:resources_generator/util/arguments.dart';
 import 'package:resources_generator/util/constants.dart';
+import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/logger.dart';
 
 void generateWithFlavors(Arguments arguments) {
@@ -25,7 +26,7 @@ void generateWithFlavors(Arguments arguments) {
       .listSync()
       .whereType<Directory>()
       .forEach((flavorDir) {
-    final flavor = basename(flavorDir.path);
+    final flavor = basename(flavorDir.unixPath);
     Logger.verboseLog('Generating flavor $flavor...');
     generateVectorResources(
       input: join(arguments.assetsLocation, flavor, 'vectors'),

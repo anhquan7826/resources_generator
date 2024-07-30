@@ -32,7 +32,7 @@ const _${flavor == null ? '' : '${flavor}_'}config_resources = (\n""",
         .where(
           (element) =>
               element is File &&
-              extension(element.path) == '.json' &&
+              extension(element.unixPath) == '.json' &&
               !element.isHidden,
         )
         .cast<File>()
@@ -41,7 +41,7 @@ const _${flavor == null ? '' : '${flavor}_'}config_resources = (\n""",
     for (final file in files) {
       final line = file.readAsStringSync();
       final object = json.decode(line);
-      buffer.write('  ${safeName(basenameWithoutExtension(file.path))}: ');
+      buffer.write('  ${safeName(basenameWithoutExtension(file.unixPath))}: ');
       if (object is Map) {
         _genMap(buffer, 4, object.map((key, value) => MapEntry(key, value)));
       }
