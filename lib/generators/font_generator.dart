@@ -40,11 +40,14 @@ const _${flavor == null ? '' : '${flavor}_'}font_resources = (
       file.absolute.unixPath,
       getCurrentPath(),
     );
+    final name = safeName(basenameWithoutExtension(file.unixPath));
     final fullPath =
         (package == null ? '' : 'packages/$package/') + relativePath;
-    buffer.writeln(
-      "  ${safeName(basenameWithoutExtension(file.unixPath))}: '$fullPath',",
-    );
+    buffer
+      ..writeln('  $name: (')
+      ..writeln("    name: '$name',")
+      ..writeln("    path: '$fullPath',")
+      ..writeln('  ),');
   }
   buffer.writeln(');');
   Directory(join(output, flavor)).createSync(recursive: true);

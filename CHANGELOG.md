@@ -18,3 +18,7 @@
 
 - Fix not being able to watch file system changes on Linux.
 - Fix assets path not being Unix path when generating on Windows.
+
+## 1.0.5
+
+- Add name and path properties for each font entry.
