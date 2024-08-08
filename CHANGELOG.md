@@ -22,3 +22,7 @@
 ## 1.0.5
 
 - Add name and path properties for each font entry.
+
+## 1.0.6
+
+- Fix missing package path for raw resources.

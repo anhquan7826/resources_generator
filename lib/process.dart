@@ -76,6 +76,7 @@ void generateWithFlavors(Arguments arguments) {
       input: join(arguments.assetsLocation, flavor, 'raws'),
       output: arguments.outputLocation,
       flavor: flavor,
+      package: arguments.package,
     );
     generateRootResourcesWithFlavor(
       output: arguments.outputLocation,
@@ -128,6 +129,7 @@ void generate(Arguments arguments) {
   generateRawResources(
     input: join(arguments.assetsLocation, 'raws'),
     output: arguments.outputLocation,
+    package: arguments.package,
   );
   generateRootResources(
     output: arguments.outputLocation,
