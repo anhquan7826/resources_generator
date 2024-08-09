@@ -26,3 +26,8 @@
 ## 1.0.6
 
 - Fix missing package path for raw resources.
+
+## 1.0.7
+
+- Sorting fonts when writing pubspec.yaml.
+- Disable pubspec.yaml generation when executing `monitor`.

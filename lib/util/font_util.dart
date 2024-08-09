@@ -88,5 +88,5 @@ List<FontAsset> getFontsAttributes(
       assets: e.value.map((f) => f.unixPath).toList(),
       flavor: flavor,
     );
-  }).toList();
+  }).sortedBy((e) => e.family);
 }

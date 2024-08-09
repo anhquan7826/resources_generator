@@ -38,9 +38,9 @@ void main(List<String> args) {
 
 void _generate(Arguments arguments) {
   if (arguments.withFlavors) {
-    generateWithFlavors(arguments);
+    generateWithFlavors(arguments, isMonitoring: true);
   } else {
-    generate(arguments);
+    generate(arguments, isMonitoring: true);
   }
 }
 

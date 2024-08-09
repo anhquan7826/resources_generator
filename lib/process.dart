@@ -17,7 +17,10 @@ import 'package:resources_generator/util/constants.dart';
 import 'package:resources_generator/util/extensions/file_ext.dart';
 import 'package:resources_generator/util/logger.dart';
 
-void generateWithFlavors(Arguments arguments) {
+void generateWithFlavors(
+  Arguments arguments, {
+  bool isMonitoring = false,
+}) {
   assert(
     Directory(join(arguments.assetsLocation, flavorDefault)).existsSync(),
     'Flavored assets must have a default assets folder "all/"!',
@@ -83,13 +86,18 @@ void generateWithFlavors(Arguments arguments) {
     );
     Logger.verboseLog('Flavor $flavor generated!');
   });
-  declarePubspecAssets(
-    arguments.assetsLocation,
-    hasFlavors: true,
-  );
+  if (!isMonitoring) {
+    declarePubspecAssets(
+      arguments.assetsLocation,
+      hasFlavors: true,
+    );
+  }
 }
 
-void generate(Arguments arguments) {
+void generate(
+  Arguments arguments, {
+  bool isMonitoring = false,
+}) {
   generateVectorResources(
     input: join(arguments.assetsLocation, 'vectors'),
     output: arguments.outputLocation,
@@ -134,8 +142,10 @@ void generate(Arguments arguments) {
   generateRootResources(
     output: arguments.outputLocation,
   );
-  declarePubspecAssets(
-    arguments.assetsLocation,
-    hasFlavors: false,
-  );
+  if (!isMonitoring) {
+    declarePubspecAssets(
+      arguments.assetsLocation,
+      hasFlavors: false,
+    );
+  }
 }
