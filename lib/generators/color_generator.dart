@@ -7,6 +7,7 @@ import 'package:resources_generator/util/extensions/scope_ext.dart';
 import 'package:resources_generator/util/filename_util.dart';
 import 'package:resources_generator/util/logger.dart';
 import 'package:resources_generator/util/sort_algorithm.dart';
+import 'package:resources_generator/util/writer.dart';
 
 void generateColorResources({
   required String input,
@@ -27,12 +28,17 @@ part of '${flavor == null ? '' : '../'}resources.dart';
 const _${flavor == null ? '' : '${flavor}_'}color_resources = (
 """);
   try {
-    final files = directory.listSync().where((fs) {
-      return fs is File &&
-          extension(fs.unixPath) == '.json' &&
-          !fs.isHidden &&
-          basenameWithoutExtension(fs.unixPath).startsWith('colors');
-    }).cast<File>().toList()..sort(sortFilesByName);
+    final files = directory
+        .listSync()
+        .where((fs) {
+          return fs is File &&
+              extension(fs.unixPath) == '.json' &&
+              !fs.isHidden &&
+              basenameWithoutExtension(fs.unixPath).startsWith('colors');
+        })
+        .cast<File>()
+        .toList()
+      ..sort(sortFilesByName);
     if (files.length == 1) {
       _writeColorsSingle(files.first, buffer);
     } else if (files.length > 1) {
@@ -57,11 +63,11 @@ void _writeColorsSingle(File file, StringBuffer buffer) {
       }
       buffer.write('  ${safeName(entry.key)}: ');
       if (entry.value is Map) {
-        _genMap(buffer, 4, entry.value);
+        Writer(buffer).writeRecord(4, entry.value);
       } else if (entry.value is List) {
-        _genList(buffer, 4, entry.value);
+        Writer(buffer).writeList(4, entry.value);
       } else {
-        _genValue(buffer, 0, entry.value);
+        Writer(buffer).writeAny(0, entry.value);
       }
       buffer.write(',\n');
     }
@@ -89,57 +95,10 @@ void _writeColorsMultiple(Iterable<File> files, StringBuffer buffer) {
       }
     });
     buffer.write('  ${safeName(variant)}: ');
-    _genMap(buffer, 4, object.map((key, value) => MapEntry(key, value)));
+    Writer(buffer).writeRecord(
+      4,
+      object.map((key, value) => MapEntry(key, value)),
+    );
     buffer.write(',\n');
   }
-}
-
-String _generateIndent(int length) {
-  final buffer = StringBuffer();
-  for (int i = 0; i < length; i++) {
-    buffer.write(' ');
-  }
-  return buffer.toString();
-}
-
-void _genMap(StringBuffer buffer, int indent, Map<String, dynamic> map) {
-  buffer.write('(\n');
-  for (final entry in map.entries) {
-    buffer.write('${_generateIndent(indent)}${safeName(entry.key)}: ');
-    if (entry.value is List) {
-      _genList(buffer, indent + 2, entry.value);
-    } else if (entry.value is Map) {
-      _genMap(buffer, indent + 2, entry.value);
-    } else {
-      _genValue(buffer, 0, entry.value);
-    }
-    buffer.write(',\n');
-  }
-  buffer.write('${_generateIndent(indent - 2)})');
-}
-
-void _genList(StringBuffer buffer, int indent, List<dynamic> list) {
-  buffer.write('[\n');
-  for (final value in list) {
-    buffer.write(_generateIndent(indent));
-    if (value is Map) {
-      _genMap(
-        buffer,
-        indent + 2,
-        value.map(
-          (key, value) => MapEntry(key.toString(), value),
-        ),
-      );
-    } else if (value is List) {
-      _genList(buffer, indent + 2, value);
-    } else {
-      _genValue(buffer, 0, value);
-    }
-    buffer.write(',\n');
-  }
-  buffer.write('${_generateIndent(indent - 2)}]');
-}
-
-void _genValue(StringBuffer buffer, int indent, dynamic value) {
-  buffer.write('${_generateIndent(indent)}$value');
 }

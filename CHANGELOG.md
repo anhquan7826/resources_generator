@@ -31,3 +31,7 @@
 
 - Sorting fonts when writing pubspec.yaml.
 - Disable pubspec.yaml generation when executing `monitor`.
+
+## 1.0.8
+
+- Values generator now only generate record if the json content is a Map.
