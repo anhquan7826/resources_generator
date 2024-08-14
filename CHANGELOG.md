@@ -35,3 +35,7 @@
 ## 1.0.8
 
 - Values generator now only generate record if the json content is a Map.
+
+## 1.0.9
+
+- Add support for plural and gender based translation when generating string resources (comply with easy_localization plural rules).
