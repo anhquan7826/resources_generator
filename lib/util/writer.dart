@@ -8,30 +8,59 @@ class Writer {
   void writeRecord(
     int indent,
     Map<String, dynamic> map, {
+    /// If `recursive` is `true`, a `Map` will be converted into a `Record`, and
+    /// its `Map` values will be converted as well. Otherwise, they will be written
+    /// as a literal `Map`.
     bool recursive = true,
+
+    /// If `true`, `String` will be treated as a generic value, thus no quote characters
+    /// will be written.
+    bool stringAsAny = false,
   }) {
     buffer.write('(\n');
     for (final entry in map.entries) {
       buffer.write('${_generateIndent(indent)}${safeName(entry.key)}: ');
       if (entry.value is List) {
-        writeList(indent + 2, entry.value);
+        writeList(
+          indent + 2,
+          entry.value,
+          stringAsAny: stringAsAny,
+        );
       } else if (entry.value is Map) {
         if (recursive) {
-          writeRecord(indent + 2, entry.value);
+          writeRecord(
+            indent + 2,
+            entry.value,
+            stringAsAny: stringAsAny,
+          );
         } else {
-          writeMap(indent + 2, entry.value);
+          writeMap(
+            indent + 2,
+            entry.value,
+            stringAsAny: stringAsAny,
+          );
         }
-      } else if (entry.value is String) {
-        writeString(0, entry.value);
-      } else {
+      } else if (stringAsAny) {
         writeAny(0, entry.value);
+      } else {
+        if (entry.value is String) {
+          writeString(0, entry.value);
+        } else {
+          writeAny(0, entry.value);
+        }
       }
       buffer.write(',\n');
     }
     buffer.write('${_generateIndent(indent - 2)})');
   }
 
-  void writeMap(int indent, Map<String, dynamic> map) {
+  void writeMap(
+    int indent,
+    Map<String, dynamic> map, {
+    /// If `true`, `String` will be treated as a generic value, thus no quote characters
+    /// will be written.
+    bool stringAsAny = false,
+  }) {
     buffer.write('{\n');
     for (final entry in map.entries) {
       if (entry.key.contains("'")) {
@@ -44,20 +73,38 @@ class Writer {
         );
       }
       if (entry.value is List) {
-        writeList(indent + 2, entry.value);
+        writeList(
+          indent + 2,
+          entry.value,
+          stringAsAny: stringAsAny,
+        );
       } else if (entry.value is Map) {
-        writeMap(indent + 2, entry.value);
-      } else if (entry.value is String) {
-        writeString(0, entry.value);
-      } else {
+        writeMap(
+          indent + 2,
+          entry.value,
+          stringAsAny: stringAsAny,
+        );
+      } else if (stringAsAny) {
         writeAny(0, entry.value);
+      } else {
+        if (entry.value is String) {
+          writeString(0, entry.value);
+        } else {
+          writeAny(0, entry.value);
+        }
       }
       buffer.write(',\n');
     }
     buffer.write('${_generateIndent(indent - 2)}}');
   }
 
-  void writeList(int indent, List<dynamic> list) {
+  void writeList(
+    int indent,
+    List<dynamic> list, {
+    /// If `true`, `String` will be treated as a generic value, thus no quote characters
+    /// will be written.
+    bool stringAsAny = false,
+  }) {
     buffer.write('[\n');
     for (final value in list) {
       buffer.write(_generateIndent(indent));
@@ -67,13 +114,22 @@ class Writer {
           value.map(
             (key, value) => MapEntry(key.toString(), value),
           ),
+          stringAsAny: stringAsAny,
         );
       } else if (value is List) {
-        writeList(indent + 2, value);
-      } else if (value is String) {
-        writeString(0, value);
-      } else {
+        writeList(
+          indent + 2,
+          value,
+          stringAsAny: stringAsAny,
+        );
+      } else if (stringAsAny) {
         writeAny(0, value);
+      } else {
+        if (value is String) {
+          writeString(0, value);
+        } else {
+          writeAny(0, value);
+        }
       }
       buffer.write(',\n');
     }
@@ -81,15 +137,13 @@ class Writer {
   }
 
   void writeString(int indent, String string) {
-    if (string.contains("'")) {
-      buffer.write(
-        '${_generateIndent(indent)}"$string"',
-      );
-    } else {
-      buffer.write(
-        "${_generateIndent(indent)}'$string'",
-      );
-    }
+    string = string
+        .replaceAll("'", r"\'")
+        .replaceAll('"', r'\"')
+        .replaceAll(r'$', r'\$');
+    buffer.write(
+      "${_generateIndent(indent)}'$string'",
+    );
   }
 
   void writeAny(int indent, dynamic value) {

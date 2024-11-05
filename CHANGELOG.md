@@ -39,3 +39,7 @@
 ## 1.0.9
 
 - Add support for plural and gender based translation when generating string resources (comply with easy_localization plural rules).
+
+## 1.0.10
+
+- Fix a bug where special characters are not escaped when writing to dart file.
